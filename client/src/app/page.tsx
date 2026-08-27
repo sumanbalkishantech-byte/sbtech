@@ -27,7 +27,7 @@ export default function Home() {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/books");
+        const response = await axios.get("sbtech-production.up.railway.app/api/books");
         const sortedBooks = response.data.sort((a: Book, b: Book) => 
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         ).slice(0, 4); 
@@ -194,7 +194,7 @@ export default function Home() {
                   <div className="aspect-[3/4] bg-gray-50 relative overflow-hidden flex items-center justify-center border-b border-gray-100 p-6">
                     {book.images && book.images.length > 0 ? (
                       <img 
-                        src={`http://localhost:5000${book.images[0]}`} 
+                        src={`sbtech-production.up.railway.app${book.images[0]}`} 
                         alt={book.title}
                         className="object-cover w-full h-full rounded-md shadow-md group-hover:scale-105 transition-transform duration-500"
                       />

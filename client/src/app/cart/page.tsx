@@ -62,7 +62,7 @@ export default function CartPage() {
                   {/* Item Image */}
                   <div className="w-24 h-32 bg-gray-100 rounded-xl overflow-hidden shrink-0 flex items-center justify-center border border-gray-100">
                     {item.image ? (
-                      <img src={`http://localhost:5000${item.image}`} alt={item.title} className="w-full h-full object-cover" />
+                      <img src={`sbtech-production.up.railway.app${item.image}`} alt={item.title} className="w-full h-full object-cover" />
                     ) : (
                       <BookOpen className="w-8 h-8 text-gray-300" />
                     )}

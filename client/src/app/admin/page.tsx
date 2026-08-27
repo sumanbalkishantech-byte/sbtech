@@ -62,10 +62,10 @@ export default function AdminPanel() {
 
       try {
         const [booksRes, ordersRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/books/admin/pending", {
+          axios.get("sbtech-production.up.railway.app/api/books/admin/pending", {
             headers: { Authorization: `Bearer ${token}` }
           }),
-          axios.get("http://localhost:5000/api/orders/admin/all", {
+          axios.get("sbtech-production.up.railway.app/api/orders/admin/all", {
             headers: { Authorization: `Bearer ${token}` }
           })
         ]);
@@ -98,7 +98,7 @@ export default function AdminPanel() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/books/admin/review/${bookId}`,
+        `sbtech-production.up.railway.app/api/books/admin/review/${bookId}`,
         { status: "Approved", price: Number(price) },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -136,14 +136,14 @@ export default function AdminPanel() {
       
       if (newImage) formData.append("images", newImage);
 
-      const uploadRes = await axios.post("http://localhost:5000/api/books/upload", formData, {
+      const uploadRes = await axios.post("sbtech-production.up.railway.app/api/books/upload", formData, {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
       });
 
       const newBookId = uploadRes.data.book._id;
 
       await axios.put(
-        `http://localhost:5000/api/books/admin/review/${newBookId}`,
+        `sbtech-production.up.railway.app/api/books/admin/review/${newBookId}`,
         { status: "Approved", price: Number(newBook.price) },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -163,7 +163,7 @@ export default function AdminPanel() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/orders/admin/${orderId}`,
+        `sbtech-production.up.railway.app/api/orders/admin/${orderId}`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );

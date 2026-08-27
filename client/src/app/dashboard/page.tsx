@@ -63,10 +63,10 @@ export default function DashboardPage() {
       try {
         // Fetch both listings and orders at the same time
         const [booksRes, ordersRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/books/mybooks", {
+          axios.get("sbtech-production.up.railway.app/api/books/mybooks", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5000/api/orders/myorders", {
+          axios.get("sbtech-production.up.railway.app/api/orders/myorders", {
             headers: { Authorization: `Bearer ${token}` },
           })
         ]);

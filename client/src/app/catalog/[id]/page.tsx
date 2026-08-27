@@ -37,7 +37,7 @@ export default function SingleBookPage() {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/books/${id}`);
+        const response = await axios.get(`sbtech-production.up.railway.app/api/books/${id}`);
         setBook(response.data);
       } catch (err: any) {
         setError("Book not found or no longer available.");
@@ -115,7 +115,7 @@ export default function SingleBookPage() {
             <div className="aspect-[3/4] w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden flex items-center justify-center">
               {book.images && book.images.length > 0 ? (
                 <img 
-                  src={`http://localhost:5000${book.images[0]}`} 
+                  src={`sbtech-production.up.railway.app${book.images[0]}`} 
                   alt={book.title}
                   className="w-full h-full object-cover"
                 />

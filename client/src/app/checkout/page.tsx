@@ -93,7 +93,7 @@ export default function CheckoutPage() {
       
       // Send the real order to our new backend route!
       const response = await axios.post(
-        "http://localhost:5000/api/orders",
+        "sbtech-production.up.railway.app/api/orders",
         { items, totalAmount: total, paymentMethod, shippingAddress: formData },
         { headers: { Authorization: `Bearer ${token}` } }
       );

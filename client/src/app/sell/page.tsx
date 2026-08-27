@@ -48,7 +48,7 @@ export default function SellBookPage() {
     try {
       const token = localStorage.getItem("token");
       
-      await axios.post("http://localhost:5000/api/books/upload", data, {
+      await axios.post("sbtech-production.up.railway.app/api/books/upload", data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",

@@ -42,7 +42,7 @@ function CatalogContent() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/books");
+        const response = await axios.get("sbtech-production.up.railway.app/api/books");
         setBooks(response.data);
       } catch (err) {
         console.error("Failed to fetch books", err);
@@ -244,7 +244,7 @@ function CatalogContent() {
                 <div className="aspect-[3/4] bg-gray-100 relative overflow-hidden flex items-center justify-center border-b border-gray-100">
                   {book.images && book.images.length > 0 ? (
                     <img 
-                      src={`http://localhost:5000${book.images[0]}`} 
+                      src={`sbtech-production.up.railway.app${book.images[0]}`} 
                       alt={book.title}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700"
                     />

@@ -21,7 +21,7 @@ export default function RegisterPage() {
 
     try {
       // Send data to our PostgreSQL backend
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await axios.post("sbtech-production.up.railway.app/api/auth/register", {
         name,
         email,
         password,
