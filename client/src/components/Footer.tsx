@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, Send, Mail, ArrowRight } from "lucide-react";
+import { Send, Mail, ArrowRight } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -21,13 +21,15 @@ export default function Footer() {
           {/* Column 1: Brand & Newsletter (Span 5) */}
           <div className="lg:col-span-5 flex flex-col justify-between">
             <div>
-              <Link href="/" className="flex items-center gap-3 text-white group w-fit mb-6">
-                <div className="bg-[#E27142] p-3 rounded-2xl group-hover:scale-105 transition-transform shadow-[0_8px_20px_rgba(226,113,66,0.3)]">
-                  <BookOpen className="w-6 h-6 text-white" />
+              {/* SCALED-UP EDITORIAL BRAND PLAQUE */}
+              <Link href="/" className="inline-block group mb-8">
+                <div className="bg-[#F9F8F4] px-8 py-5 rounded-[1.5rem] rounded-br-md shadow-[0_12px_24px_rgba(0,0,0,0.25)] border-b-[5px] border-[#E27142] group-hover:-translate-y-1 transition-transform duration-300">
+                  <img 
+                    src="/KP logo.png" 
+                    alt="KitabPoint Logo" 
+                    className="h-16 md:h-24 w-auto object-contain drop-shadow-sm"
+                  />
                 </div>
-                <span className="text-3xl font-black tracking-tight">
-                  Kitab<span className="text-[#E27142]">Point</span>
-                </span>
               </Link>
               <p className="text-[#F9F8F4]/70 text-lg leading-relaxed max-w-sm mb-10">
                 Curating the world's best stories. A premium marketplace for pristine new releases and verified pre-loved books.
@@ -64,6 +66,7 @@ export default function Footer() {
                 <li><Link href="/catalog?type=new" className="hover:text-[#E27142] transition-colors inline-flex items-center gap-2 group">New Arrivals <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" /></Link></li>
                 <li><Link href="/catalog?type=used" className="hover:text-[#E27142] transition-colors inline-flex items-center gap-2 group">Pre-Loved Books <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" /></Link></li>
                 <li><Link href="/sell" className="hover:text-[#E27142] transition-colors inline-flex items-center gap-2 group">Start Selling <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" /></Link></li>
+                <li><Link href="#" className="hover:text-[#E27142] transition-colors inline-flex items-center gap-2 group">Services <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" /></Link></li>
               </ul>
             </div>
             

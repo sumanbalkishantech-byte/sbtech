@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Search, ShoppingBag, User, BookOpen, LogOut, X } from "lucide-react";
+import { Search, ShoppingBag, User, LogOut, X } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 
 export default function Navbar() {
@@ -82,11 +82,13 @@ export default function Navbar() {
       <nav className="sticky top-0 z-40 w-full border-b border-[#183629]/10 bg-[#F9F8F4]/80 backdrop-blur-xl shadow-sm transition-all">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
 
-          {/* Logo Section */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="bg-[#E27142] text-white p-2.5 rounded-xl group-hover:scale-105 transition-transform shadow-md shadow-[#E27142]/20">
-              <BookOpen className="w-5 h-5" />
-            </div>
+          {/* CORRECTED LOGO SECTION */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <img 
+              src="/kp_logo.png" 
+              alt="KitabPoint Icon" 
+              className="h-9 md:h-11 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-sm"
+            />
             <span className="text-2xl font-black tracking-tight text-[#183629]">
               Kitab<span className="text-[#E27142]">Point</span>
             </span>
