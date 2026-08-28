@@ -19,7 +19,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("sbtech-production.up.railway.app/api/auth/login", {
+      const response = await axios.post("https://sbtech-production.up.railway.app/api/auth/login", {
         email,
         password,
       });
@@ -44,52 +44,61 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-[calc(100vh-80px)] flex items-center justify-center p-6 bg-gradient-to-b from-white to-gray-50/50">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-8">
+    <main className="relative min-h-[calc(100vh-80px)] flex items-center justify-center p-6 bg-[#F9F8F4] overflow-hidden">
+      
+      {/* Seamless Washi Paper Texture */}
+      <div 
+        className="absolute inset-0 z-0 mix-blend-multiply opacity-[0.2] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      <div className="w-full max-w-md bg-white rounded-[2.5rem] shadow-sm border border-[#183629]/5 p-8 md:p-10 relative z-10">
         
         {/* Header */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="bg-gradient-to-tr from-indigo-600 to-violet-500 text-white p-3 rounded-2xl mb-4 shadow-md shadow-indigo-200">
+        <div className="flex flex-col items-center mb-10">
+          <div className="bg-[#E27142] text-white p-3.5 rounded-2xl mb-5 shadow-[0_8px_20px_rgba(226,113,66,0.2)]">
             <BookOpen className="w-6 h-6" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
-          <p className="text-sm text-gray-500 mt-1">Enter your credentials to access your account</p>
+          <h1 className="text-3xl font-black text-[#183629] tracking-tight">Welcome Back</h1>
+          <p className="text-sm font-medium text-[#183629]/60 mt-2">Enter your credentials to access your account</p>
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-rose-50 border border-rose-100 text-rose-600 text-sm rounded-xl text-center font-medium">
+          <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 text-xs uppercase tracking-wider font-bold rounded-xl text-center">
             {error}
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium text-gray-700 ml-1">Email Address</label>
+        <form onSubmit={handleLogin} className="space-y-6">
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-[#183629]/50 uppercase tracking-widest pl-1">Email Address</label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 stroke-[1.5]" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#183629]/40 stroke-[2]" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none text-gray-900"
+                className="w-full pl-12 pr-4 py-3.5 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#E27142] transition-all outline-none text-[#183629] font-bold placeholder-[#183629]/30"
                 placeholder="you@example.com"
               />
             </div>
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium text-gray-700 ml-1">Password</label>
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-[#183629]/50 uppercase tracking-widest pl-1">Password</label>
             <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 stroke-[1.5]" />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#183629]/40 stroke-[2]" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none text-gray-900"
+                className="w-full pl-12 pr-4 py-3.5 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#E27142] transition-all outline-none text-[#183629] font-bold placeholder-[#183629]/30"
                 placeholder="••••••••"
               />
             </div>
@@ -98,23 +107,23 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 bg-gray-900 hover:bg-indigo-600 text-white py-3.5 rounded-xl font-medium transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/30 disabled:opacity-70 disabled:cursor-not-allowed group mt-2"
+            className="w-full flex items-center justify-center gap-2 bg-[#183629] hover:bg-[#12291f] text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-xl shadow-[#183629]/20 hover:-translate-y-1 disabled:opacity-70 disabled:hover:-translate-y-0 group mt-4"
           >
             {isLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />
             ) : (
               <>
                 Sign In
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </>
             )}
           </button>
         </form>
 
         {/* Footer */}
-        <p className="mt-8 text-center text-sm text-gray-500">
+        <p className="mt-8 text-center text-sm font-bold text-[#183629]/50">
           Don't have an account?{" "}
-          <Link href="/register" className="text-indigo-600 font-semibold hover:underline">
+          <Link href="/register" className="text-[#E27142] hover:text-[#c45a31] transition-colors uppercase tracking-wider text-xs ml-1">
             Create one here
           </Link>
         </p>

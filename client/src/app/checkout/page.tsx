@@ -91,9 +91,8 @@ export default function CheckoutPage() {
         return;
       }
       
-      // Send the real order to our new backend route!
       const response = await axios.post(
-        "sbtech-production.up.railway.app/api/orders",
+        "https://sbtech-production.up.railway.app/api/orders",
         { items, totalAmount: total, paymentMethod, shippingAddress: formData },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -101,11 +100,9 @@ export default function CheckoutPage() {
       setIsProcessing(false);
       setIsSuccess(true);
       
-      // Use the real MongoDB ID for the order number on the UI
       setOrderId(`ORD-${response.data._id.substring(0, 6).toUpperCase()}`);
-      clearCart(); // Wipe the Zustand cart clean
+      clearCart(); 
 
-      // Redirect to the Dashboard after showing the success screen
       setTimeout(() => {
         router.push("/dashboard");
       }, 4000); 
@@ -119,23 +116,32 @@ export default function CheckoutPage() {
   // --- SUCCESS SCREEN ---
   if (isSuccess) {
     return (
-      <main className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-emerald-50/50 p-6">
-        <div className="bg-white p-12 rounded-3xl shadow-xl shadow-emerald-200/20 text-center max-w-lg w-full border border-emerald-100 animate-in zoom-in duration-500">
-          <div className="mx-auto bg-emerald-100 w-24 h-24 rounded-full flex items-center justify-center mb-6 shadow-inner">
-            <CheckCircle className="w-12 h-12 text-emerald-600" />
+      <main className="relative min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-[#F9F8F4] p-6 overflow-hidden">
+        
+        {/* Washi Paper Texture */}
+        <div 
+          className="absolute inset-0 z-0 mix-blend-multiply opacity-[0.2] pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        <div className="bg-white p-12 rounded-[2.5rem] shadow-sm border border-[#183629]/5 text-center max-w-lg w-full relative z-10 animate-in zoom-in duration-500">
+          <div className="mx-auto bg-[#F9F8F4] border border-[#183629]/10 w-24 h-24 rounded-full flex items-center justify-center mb-6">
+            <CheckCircle className="w-12 h-12 text-[#183629]" />
           </div>
-          <h1 className="text-3xl font-black text-gray-900 mb-2">Order Confirmed!</h1>
-          <p className="text-gray-500 font-medium mb-6">
-            Thank you, {formData.fullName.split(" ")[0] || "Guest"}. A confirmation has been sent to <span className="text-gray-800 font-semibold">{formData.email}</span>.
+          <h1 className="text-3xl font-black text-[#183629] mb-2">Order Confirmed!</h1>
+          <p className="text-[#183629]/60 font-medium mb-6">
+            Thank you, {formData.fullName.split(" ")[0] || "Guest"}. A confirmation has been sent to <span className="text-[#183629] font-bold">{formData.email}</span>.
           </p>
           
-          <div className="bg-gray-50 rounded-2xl p-4 mb-8 border border-gray-100">
-            <p className="text-sm text-gray-500 uppercase tracking-wider font-bold mb-1">Order Number</p>
-            <p className="text-xl font-black text-indigo-600 tracking-widest">{orderId}</p>
-            <p className="text-xs text-gray-400 mt-2 font-medium">Payment Method: {paymentMethod.toUpperCase()}</p>
+          <div className="bg-[#F9F8F4] rounded-2xl p-6 mb-8 border border-[#183629]/5">
+            <p className="text-xs text-[#183629]/50 uppercase tracking-widest font-bold mb-2">Order Number</p>
+            <p className="text-2xl font-black text-[#E27142] tracking-widest">{orderId}</p>
+            <p className="text-xs text-[#183629]/60 mt-3 font-bold uppercase tracking-wider">Payment Method: {paymentMethod}</p>
           </div>
 
-          <div className="flex items-center justify-center gap-2 text-sm text-emerald-600 font-bold animate-pulse">
+          <div className="flex items-center justify-center gap-2 text-sm text-[#183629]/60 font-bold animate-pulse">
             <Loader2 className="w-4 h-4 animate-spin" />
             Redirecting to your Dashboard...
           </div>
@@ -146,10 +152,19 @@ export default function CheckoutPage() {
 
   // --- CHECKOUT FORM ---
   return (
-    <main className="min-h-[calc(100vh-80px)] py-12 px-6 bg-gray-50/50">
-      <div className="max-w-6xl mx-auto">
+    <main className="relative min-h-[calc(100vh-80px)] py-12 px-6 bg-[#F9F8F4] overflow-hidden">
+      
+      {/* Washi Paper Texture */}
+      <div 
+        className="absolute inset-0 z-0 mix-blend-multiply opacity-[0.2] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      <div className="max-w-6xl mx-auto relative z-10">
         
-        <Link href="/cart" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors mb-8 group">
+        <Link href="/cart" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#183629]/50 hover:text-[#E27142] transition-colors mb-8 group">
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Back to Cart
         </Link>
@@ -158,96 +173,96 @@ export default function CheckoutPage() {
           
           {/* LEFT: Forms */}
           <div className="flex-1 space-y-8">
-            <h1 className="text-3xl font-black text-gray-900 tracking-tight">Checkout</h1>
+            <h1 className="text-4xl font-black text-[#183629] tracking-tight">Checkout</h1>
             
             <form id="checkout-form" onSubmit={handleCheckout} className="space-y-8">
               
               {/* CONTACT INFORMATION */}
-              <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-                  <Mail className="w-6 h-6 text-indigo-600" />
-                  <h2 className="text-xl font-bold text-gray-900">Contact Information</h2>
+              <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-[#183629]/5">
+                <div className="flex items-center gap-3 mb-8 border-b border-[#183629]/5 pb-4">
+                  <Mail className="w-5 h-5 text-[#E27142]" />
+                  <h2 className="text-xl font-bold text-[#183629]">Contact Information</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-gray-700">Email Address</label>
-                    <input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none transition-colors" placeholder="you@example.com" />
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-[#183629]/50 uppercase tracking-widest">Email Address</label>
+                    <input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-3.5 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#E27142] outline-none transition-colors text-[#183629] font-medium placeholder-[#183629]/30" placeholder="you@example.com" />
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-gray-700">Phone Number</label>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-[#183629]/50 uppercase tracking-widest">Phone Number</label>
                     <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">+91</span>
-                      <input required type="tel" pattern="[0-9]{10}" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full pl-14 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none transition-colors" placeholder="9876543210" />
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#183629]/50 font-bold">+91</span>
+                      <input required type="tel" pattern="[0-9]{10}" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full pl-14 pr-4 py-3.5 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#E27142] outline-none transition-colors text-[#183629] font-medium placeholder-[#183629]/30" placeholder="9876543210" />
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* SHIPPING INFORMATION */}
-              <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-                  <MapPin className="w-6 h-6 text-indigo-600" />
-                  <h2 className="text-xl font-bold text-gray-900">Shipping Details</h2>
+              <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-[#183629]/5">
+                <div className="flex items-center gap-3 mb-8 border-b border-[#183629]/5 pb-4">
+                  <MapPin className="w-5 h-5 text-[#E27142]" />
+                  <h2 className="text-xl font-bold text-[#183629]">Shipping Details</h2>
                 </div>
 
                 <div className="space-y-6">
-                  <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-gray-700">Full Name</label>
-                    <input required type="text" value={formData.fullName} onChange={(e) => setFormData({...formData, fullName: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none transition-colors" placeholder="John Doe" />
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-[#183629]/50 uppercase tracking-widest">Full Name</label>
+                    <input required type="text" value={formData.fullName} onChange={(e) => setFormData({...formData, fullName: e.target.value})} className="w-full px-4 py-3.5 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#E27142] outline-none transition-colors text-[#183629] font-medium placeholder-[#183629]/30" placeholder="John Doe" />
                   </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-gray-700">Full Address</label>
-                    <textarea required rows={2} value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none transition-colors resize-none" placeholder="123 Market Street, Apt 4B" />
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-[#183629]/50 uppercase tracking-widest">Full Address</label>
+                    <textarea required rows={2} value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} className="w-full px-4 py-3.5 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#E27142] outline-none transition-colors resize-none text-[#183629] font-medium placeholder-[#183629]/30" placeholder="123 Market Street, Apt 4B" />
                   </div>
 
                   <div className="grid grid-cols-2 gap-6">
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium text-gray-700">City</label>
-                      <input required type="text" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none transition-colors" placeholder="Mumbai" />
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-[#183629]/50 uppercase tracking-widest">City</label>
+                      <input required type="text" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} className="w-full px-4 py-3.5 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#E27142] outline-none transition-colors text-[#183629] font-medium placeholder-[#183629]/30" placeholder="Mumbai" />
                     </div>
-                    <div className="space-y-1.5">
-                      <label className="text-sm font-medium text-gray-700">PIN Code</label>
-                      <input required type="text" pattern="[0-9]{6}" value={formData.pinCode} onChange={(e) => setFormData({...formData, pinCode: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none transition-colors" placeholder="400001" />
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-[#183629]/50 uppercase tracking-widest">PIN Code</label>
+                      <input required type="text" pattern="[0-9]{6}" value={formData.pinCode} onChange={(e) => setFormData({...formData, pinCode: e.target.value})} className="w-full px-4 py-3.5 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#E27142] outline-none transition-colors text-[#183629] font-medium placeholder-[#183629]/30" placeholder="400001" />
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* PAYMENT METHOD SELECTION */}
-              <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-                  <Wallet className="w-6 h-6 text-indigo-600" />
-                  <h2 className="text-xl font-bold text-gray-900">Payment Method</h2>
+              <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-[#183629]/5">
+                <div className="flex items-center gap-3 mb-8 border-b border-[#183629]/5 pb-4">
+                  <Wallet className="w-5 h-5 text-[#E27142]" />
+                  <h2 className="text-xl font-bold text-[#183629]">Payment Method</h2>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {/* UPI Option */}
-                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'upi' ? 'border-indigo-600 bg-indigo-50/50' : 'border-gray-100 hover:border-gray-200 bg-white'}`}>
-                    <div className="flex items-center gap-3">
-                      <input type="radio" name="payment" value="upi" checked={paymentMethod === 'upi'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 cursor-pointer" />
-                      <span className="font-bold text-gray-900">UPI (GPay, PhonePe, Paytm)</span>
+                  <label className={`flex items-center justify-between p-5 rounded-2xl border-2 cursor-pointer transition-all ${paymentMethod === 'upi' ? 'border-[#183629] bg-[#183629]/5' : 'border-[#183629]/10 hover:border-[#183629]/20 bg-white'}`}>
+                    <div className="flex items-center gap-4">
+                      <input type="radio" name="payment" value="upi" checked={paymentMethod === 'upi'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-[#183629] border-[#183629]/20 focus:ring-[#183629] cursor-pointer" />
+                      <span className="font-bold text-[#183629]">UPI (GPay, PhonePe, Paytm)</span>
                     </div>
-                    {paymentMethod === 'upi' && <CheckCircle className="w-5 h-5 text-indigo-600" />}
+                    {paymentMethod === 'upi' && <CheckCircle className="w-6 h-6 text-[#E27142]" />}
                   </label>
 
                   {/* Card Option */}
-                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'card' ? 'border-indigo-600 bg-indigo-50/50' : 'border-gray-100 hover:border-gray-200 bg-white'}`}>
-                    <div className="flex items-center gap-3">
-                      <input type="radio" name="payment" value="card" checked={paymentMethod === 'card'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 cursor-pointer" />
-                      <span className="font-bold text-gray-900">Credit / Debit Card</span>
+                  <label className={`flex items-center justify-between p-5 rounded-2xl border-2 cursor-pointer transition-all ${paymentMethod === 'card' ? 'border-[#183629] bg-[#183629]/5' : 'border-[#183629]/10 hover:border-[#183629]/20 bg-white'}`}>
+                    <div className="flex items-center gap-4">
+                      <input type="radio" name="payment" value="card" checked={paymentMethod === 'card'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-[#183629] border-[#183629]/20 focus:ring-[#183629] cursor-pointer" />
+                      <span className="font-bold text-[#183629]">Credit / Debit Card</span>
                     </div>
-                    {paymentMethod === 'card' && <CheckCircle className="w-5 h-5 text-indigo-600" />}
+                    {paymentMethod === 'card' && <CheckCircle className="w-6 h-6 text-[#E27142]" />}
                   </label>
 
                   {/* COD Option */}
-                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${paymentMethod === 'cod' ? 'border-indigo-600 bg-indigo-50/50' : 'border-gray-100 hover:border-gray-200 bg-white'}`}>
-                    <div className="flex items-center gap-3">
-                      <input type="radio" name="payment" value="cod" checked={paymentMethod === 'cod'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 cursor-pointer" />
-                      <span className="font-bold text-gray-900">Cash on Delivery (COD)</span>
+                  <label className={`flex items-center justify-between p-5 rounded-2xl border-2 cursor-pointer transition-all ${paymentMethod === 'cod' ? 'border-[#183629] bg-[#183629]/5' : 'border-[#183629]/10 hover:border-[#183629]/20 bg-white'}`}>
+                    <div className="flex items-center gap-4">
+                      <input type="radio" name="payment" value="cod" checked={paymentMethod === 'cod'} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-[#183629] border-[#183629]/20 focus:ring-[#183629] cursor-pointer" />
+                      <span className="font-bold text-[#183629]">Cash on Delivery (COD)</span>
                     </div>
-                    {paymentMethod === 'cod' && <CheckCircle className="w-5 h-5 text-indigo-600" />}
+                    {paymentMethod === 'cod' && <CheckCircle className="w-6 h-6 text-[#E27142]" />}
                   </label>
                 </div>
               </div>
@@ -257,24 +272,24 @@ export default function CheckoutPage() {
 
           {/* RIGHT: Order Summary & Pay */}
           <div className="w-full lg:w-[400px] shrink-0">
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 sticky top-28">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
+            <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-[#183629]/5 sticky top-28">
+              <h2 className="text-xl font-bold text-[#183629] mb-8">Order Summary</h2>
               
               {/* Item List */}
-              <div className="space-y-4 mb-6">
+              <div className="space-y-5 mb-8">
                 {items.map((item) => (
                   <div key={item._id} className="flex justify-between items-start text-sm">
-                    <span className="text-gray-600 pr-4 line-clamp-2 leading-tight">{item.title}</span>
-                    <span className="text-gray-900 font-bold whitespace-nowrap">₹{item.price}</span>
+                    <span className="text-[#183629]/70 pr-4 font-medium leading-tight">{item.title}</span>
+                    <span className="text-[#183629] font-bold whitespace-nowrap">₹{item.price}</span>
                   </div>
                 ))}
               </div>
 
               {/* Coupon Engine */}
-              <div className="mb-6 pt-6 border-t border-gray-100">
-                <label className="flex items-center gap-2 text-sm font-bold text-gray-900 mb-3">
-                  <TicketPercent className="w-4 h-4 text-indigo-600" />
-                  Have a promo code?
+              <div className="mb-8 pt-8 border-t border-[#183629]/10">
+                <label className="flex items-center gap-2 text-xs font-bold text-[#183629]/50 uppercase tracking-widest mb-3">
+                  <TicketPercent className="w-4 h-4 text-[#E27142]" />
+                  Promo Code
                 </label>
                 <div className="flex gap-2">
                   <input 
@@ -282,38 +297,38 @@ export default function CheckoutPage() {
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
                     placeholder="Enter code" 
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none uppercase font-medium text-sm transition-colors"
+                    className="w-full px-4 py-3 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#E27142] outline-none uppercase font-bold text-sm transition-colors text-[#183629]"
                   />
                   <button 
                     type="button"
                     onClick={handleApplyCoupon}
                     disabled={isApplyingCoupon || !couponCode.trim()}
-                    className="bg-gray-900 hover:bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm disabled:opacity-50"
+                    className="bg-[#183629] hover:bg-[#12291f] text-white px-5 py-3 rounded-xl font-bold text-sm transition-all shadow-sm disabled:opacity-50"
                   >
                     {isApplyingCoupon ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Apply'}
                   </button>
                 </div>
                 {couponStatus.msg && (
-                  <p className={`text-xs font-bold mt-2 pl-1 ${couponStatus.type === 'success' ? 'text-emerald-600' : 'text-rose-500'}`}>
+                  <p className={`text-xs font-bold mt-3 pl-1 uppercase tracking-wider ${couponStatus.type === 'success' ? 'text-[#183629]' : 'text-red-500'}`}>
                     {couponStatus.msg}
                   </p>
                 )}
               </div>
 
               {/* Financial Breakdown */}
-              <div className="space-y-4 text-sm font-medium text-gray-500 mb-6 pb-6 border-b border-gray-100 pt-6 border-t border-dashed">
+              <div className="space-y-5 text-sm font-medium text-[#183629]/70 mb-8 pb-8 border-b border-[#183629]/10 pt-8 border-t border-dashed border-[#183629]/20">
                 <div className="flex justify-between items-center">
                   <span>Subtotal</span>
-                  <span className="text-gray-900 flex items-center"><IndianRupee className="w-3.5 h-3.5" />{subtotal}</span>
+                  <span className="text-[#183629] font-bold flex items-center"><IndianRupee className="w-3.5 h-3.5" />{subtotal}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>Standard Shipping</span>
-                  <span className="text-gray-900 flex items-center"><IndianRupee className="w-3.5 h-3.5" />{shipping}</span>
+                  <span className="text-[#183629] font-bold flex items-center"><IndianRupee className="w-3.5 h-3.5" />{shipping}</span>
                 </div>
                 
                 {/* Dynamic Discount Line */}
                 {discountAmount > 0 && (
-                  <div className="flex justify-between items-center text-emerald-600 font-bold">
+                  <div className="flex justify-between items-center text-[#E27142] font-bold">
                     <span>Discount Applied</span>
                     <span className="flex items-center">- <IndianRupee className="w-3.5 h-3.5 ml-1" />{discountAmount}</span>
                   </div>
@@ -321,10 +336,10 @@ export default function CheckoutPage() {
               </div>
 
               {/* Final Total */}
-              <div className="flex justify-between items-center mb-8">
-                <span className="text-base font-bold text-gray-900">Total to Pay</span>
-                <span className="text-3xl font-black text-indigo-600 flex items-center tracking-tighter">
-                  <IndianRupee className="w-6 h-6 mr-0.5" />{Math.max(0, total)}
+              <div className="flex justify-between items-center mb-10">
+                <span className="text-lg font-bold text-[#183629]">Total to Pay</span>
+                <span className="text-4xl font-black text-[#E27142] flex items-center tracking-tighter">
+                  <IndianRupee className="w-8 h-8 mr-0.5 opacity-90" />{Math.max(0, total)}
                 </span>
               </div>
 
@@ -333,12 +348,12 @@ export default function CheckoutPage() {
                 form="checkout-form"
                 type="submit"
                 disabled={isProcessing}
-                className="w-full flex items-center justify-center gap-2 bg-gray-900 hover:bg-emerald-600 text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-emerald-500/30 disabled:opacity-80"
+                className="w-full flex items-center justify-center gap-2 bg-[#E27142] hover:bg-[#c45a31] text-white py-5 rounded-xl font-bold text-lg transition-all duration-300 shadow-xl shadow-[#E27142]/20 hover:-translate-y-1 disabled:opacity-80"
               >
                 {isProcessing ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    Processing Payment...
+                    Processing...
                   </>
                 ) : (
                   <>
@@ -348,9 +363,9 @@ export default function CheckoutPage() {
                 )}
               </button>
 
-              <div className="mt-6 flex items-center justify-center gap-2 text-xs font-medium text-gray-400">
+              <div className="mt-6 flex items-center justify-center gap-2 text-xs font-bold text-[#183629]/40 uppercase tracking-widest">
                 <ShieldCheck className="w-4 h-4" />
-                256-bit SSL Encrypted Checkout
+                256-bit SSL Encrypted
               </div>
             </div>
           </div>

@@ -61,12 +61,11 @@ export default function DashboardPage() {
       }
 
       try {
-        // Fetch both listings and orders at the same time
         const [booksRes, ordersRes] = await Promise.all([
-          axios.get("sbtech-production.up.railway.app/api/books/mybooks", {
+          axios.get("https://sbtech-production.up.railway.app/api/books/mybooks", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("sbtech-production.up.railway.app/api/orders/myorders", {
+          axios.get("https://sbtech-production.up.railway.app/api/orders/myorders", {
             headers: { Authorization: `Bearer ${token}` },
           })
         ]);
@@ -85,25 +84,34 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-gray-50/50">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+      <main className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-[#F9F8F4]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#E27142]"></div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-[calc(100vh-80px)] py-12 px-6 bg-gray-50/50">
-      <div className="max-w-5xl mx-auto">
+    <main className="relative min-h-[calc(100vh-80px)] py-12 px-6 bg-[#F9F8F4] overflow-hidden">
+      
+      {/* Seamless Washi Paper Texture */}
+      <div 
+        className="absolute inset-0 z-0 mix-blend-multiply opacity-[0.2] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      <div className="max-w-5xl mx-auto relative z-10">
         
         {/* Dashboard Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Hello, {userName}</h1>
-            <p className="text-gray-500 mt-1">Manage your activity on the marketplace.</p>
+            <h1 className="text-3xl font-black text-[#183629] tracking-tight">Hello, {userName}</h1>
+            <p className="text-[#183629]/60 mt-2 font-medium">Manage your activity on the marketplace.</p>
           </div>
           <Link 
             href="/sell" 
-            className="inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-indigo-600 text-white px-6 py-3 rounded-xl text-sm font-medium transition-all shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center gap-2 bg-[#E27142] hover:bg-[#c45a31] text-white px-6 py-3.5 rounded-xl text-sm font-bold transition-all shadow-xl shadow-[#E27142]/20 hover:-translate-y-1"
           >
             <Plus className="w-4 h-4" />
             List Another Book
@@ -111,149 +119,149 @@ export default function DashboardPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-6 border-b border-gray-200 mb-8">
+        <div className="flex items-center gap-8 border-b border-[#183629]/10 mb-8">
           <button 
             onClick={() => setActiveTab("listings")}
-            className={`pb-4 text-sm font-medium transition-colors relative ${activeTab === "listings" ? "text-indigo-600" : "text-gray-500 hover:text-gray-900"}`}
+            className={`pb-4 text-sm font-bold transition-colors relative uppercase tracking-wider ${activeTab === "listings" ? "text-[#183629]" : "text-[#183629]/40 hover:text-[#183629]"}`}
           >
             <div className="flex items-center gap-2">
               <Package className="w-4 h-4" />
               My Listings
             </div>
             {activeTab === "listings" && (
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 rounded-t-full"></span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#E27142] rounded-t-full"></span>
             )}
           </button>
 
           <button 
             onClick={() => setActiveTab("orders")}
-            className={`pb-4 text-sm font-medium transition-colors relative ${activeTab === "orders" ? "text-indigo-600" : "text-gray-500 hover:text-gray-900"}`}
+            className={`pb-4 text-sm font-bold transition-colors relative uppercase tracking-wider ${activeTab === "orders" ? "text-[#183629]" : "text-[#183629]/40 hover:text-[#183629]"}`}
           >
             <div className="flex items-center gap-2">
               <Receipt className="w-4 h-4" />
               Order History
             </div>
             {activeTab === "orders" && (
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 rounded-t-full"></span>
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#E27142] rounded-t-full"></span>
             )}
           </button>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-rose-50 border border-rose-100 text-rose-600 text-sm rounded-xl font-medium">
+          <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 text-sm rounded-xl font-bold">
             {error}
           </div>
         )}
 
         {/* --- TAB CONTENT: MY LISTINGS --- */}
         {activeTab === "listings" && (
-          <>
+          <div className="animate-in fade-in duration-500">
             {books.length === 0 ? (
-              <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-12 flex flex-col items-center justify-center text-center">
-                <div className="bg-gray-50 p-4 rounded-full mb-4">
-                  <Package className="w-8 h-8 text-gray-400" />
+              <div className="bg-white/80 backdrop-blur-md rounded-[2.5rem] shadow-sm border border-[#183629]/5 p-16 flex flex-col items-center justify-center text-center min-h-[40vh]">
+                <div className="bg-[#F9F8F4] p-5 rounded-full mb-6 border border-[#183629]/5">
+                  <Package className="w-8 h-8 text-[#183629]/30" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">No books listed yet</h3>
-                <p className="text-gray-500 mt-1 max-w-sm">Start selling your pre-loved books by submitting them for admin review.</p>
+                <h3 className="text-xl font-bold text-[#183629]">No books listed yet</h3>
+                <p className="text-[#183629]/60 mt-2 font-medium max-w-sm">Start selling your pre-loved books by submitting them for review.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {books.map((book) => (
-                  <div key={book._id} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                  <div key={book._id} className="bg-white rounded-3xl p-6 shadow-sm border border-[#183629]/5 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
                     
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="bg-indigo-50 p-2.5 rounded-xl text-indigo-600">
+                    <div className="flex justify-between items-start mb-6">
+                      <div className="bg-[#F9F8F4] border border-[#183629]/5 p-3 rounded-xl text-[#183629]">
                         <BookOpen className="w-5 h-5" />
                       </div>
                       
                       {book.status === "Pending_Review" ? (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-full border border-amber-100">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-700 text-xs font-bold uppercase tracking-wider rounded-full border border-amber-200">
                           <Clock className="w-3.5 h-3.5" />
                           Pending Review
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-100">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#183629]/5 text-[#183629] text-xs font-bold uppercase tracking-wider rounded-full border border-[#183629]/10">
                           <CheckCircle className="w-3.5 h-3.5" />
                           Approved
                         </span>
                       )}
                     </div>
 
-                    <h3 className="font-bold text-gray-900 truncate">{book.title}</h3>
-                    <p className="text-sm text-gray-500 truncate mb-4">by {book.author}</p>
+                    <h3 className="text-lg font-bold text-[#183629] truncate mb-1">{book.title}</h3>
+                    <p className="text-sm font-medium text-[#183629]/60 truncate mb-6">by {book.author}</p>
 
-                    <div className="pt-4 border-t border-gray-50 flex items-center justify-between">
-                      <span className="text-xs text-gray-400">
+                    <div className="pt-5 border-t border-[#183629]/5 flex items-center justify-between">
+                      <span className="text-xs font-bold text-[#183629]/40 uppercase tracking-widest">
                         Listed {new Date(book.createdAt).toLocaleDateString()}
                       </span>
-                      <span className="font-semibold text-gray-900">
-                        {book.price ? `₹${book.price}` : "Pricing TBD"}
+                      <span className="text-lg font-black text-[#183629]">
+                        {book.price ? `₹${book.price}` : "TBD"}
                       </span>
                     </div>
                   </div>
                 ))}
               </div>
             )}
-          </>
+          </div>
         )}
 
         {/* --- TAB CONTENT: ORDER HISTORY --- */}
         {activeTab === "orders" && (
-          <>
+          <div className="animate-in fade-in duration-500">
             {orders.length === 0 ? (
-              <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-12 flex flex-col items-center justify-center text-center">
-                <div className="bg-gray-50 p-4 rounded-full mb-4">
-                  <ShoppingBag className="w-8 h-8 text-gray-400" />
+              <div className="bg-white/80 backdrop-blur-md rounded-[2.5rem] shadow-sm border border-[#183629]/5 p-16 flex flex-col items-center justify-center text-center min-h-[40vh]">
+                <div className="bg-[#F9F8F4] p-5 rounded-full mb-6 border border-[#183629]/5">
+                  <ShoppingBag className="w-8 h-8 text-[#183629]/30" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">No past orders</h3>
-                <p className="text-gray-500 mt-1 max-w-sm mb-6">You haven't purchased any books yet. Explore our catalog to find your next great read.</p>
+                <h3 className="text-xl font-bold text-[#183629]">No past orders</h3>
+                <p className="text-[#183629]/60 mt-2 font-medium max-w-sm mb-6">You haven't purchased any books yet. Explore our catalog to find your next great read.</p>
                 <Link 
                   href="/catalog" 
-                  className="text-indigo-600 font-medium hover:text-indigo-700 hover:underline"
+                  className="text-[#E27142] font-bold hover:text-[#c45a31] uppercase tracking-wider text-sm transition-colors flex items-center gap-1"
                 >
-                  Browse Catalog →
+                  Browse Catalog &rarr;
                 </Link>
               </div>
             ) : (
               <div className="space-y-6">
                 {orders.map((order) => (
-                  <div key={order._id} className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div key={order._id} className="bg-white rounded-[2rem] shadow-sm border border-[#183629]/5 overflow-hidden transition-all hover:shadow-md">
                     
                     {/* Order Header */}
-                    <div className="bg-gray-50/80 border-b border-gray-100 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="bg-[#F9F8F4]/80 border-b border-[#183629]/5 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div>
-                        <div className="flex items-center gap-3 mb-1">
-                          <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Order ID</span>
-                          <span className="text-sm font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-xs font-bold text-[#183629]/40 uppercase tracking-widest">Order ID</span>
+                          <span className="text-sm font-black text-[#183629] bg-white px-3 py-1 rounded-lg border border-[#183629]/10 shadow-sm">
                             ORD-{order._id.substring(0, 6).toUpperCase()}
                           </span>
                         </div>
-                        <div className="flex items-center gap-2 text-sm font-medium text-gray-500">
-                          <Calendar className="w-4 h-4" />
+                        <div className="flex items-center gap-2 text-xs font-bold text-[#183629]/60 uppercase tracking-widest">
+                          <Calendar className="w-3.5 h-3.5" />
                           {new Date(order.createdAt).toLocaleDateString('en-IN', { 
-                            year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+                            year: 'numeric', month: 'short', day: 'numeric'
                           })}
                         </div>
                       </div>
                       
-                      <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full text-xs font-bold border border-emerald-100 w-fit">
+                      <div className="flex items-center gap-2 bg-[#EAE7DC] text-[#183629] px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider border border-[#183629]/10 w-fit">
                         <CheckCircle className="w-4 h-4" />
                         {order.status}
                       </div>
                     </div>
 
                     {/* Order Items */}
-                    <div className="p-6 divide-y divide-gray-50">
+                    <div className="p-8 divide-y divide-[#183629]/5">
                       {order.items.map((item, index) => (
                         <div key={index} className="py-4 first:pt-0 last:pb-0 flex justify-between items-start gap-4">
                           <div>
-                            <h4 className="font-bold text-gray-900">{item.title}</h4>
-                            <span className="inline-block mt-1 px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-semibold rounded-md">
+                            <h4 className="font-bold text-[#183629] text-lg">{item.title}</h4>
+                            <span className="inline-block mt-2 px-2.5 py-1 bg-[#F9F8F4] text-[#183629]/60 text-[10px] uppercase tracking-widest font-bold rounded-md border border-[#183629]/5">
                               {item.book_type === 'New' ? 'Brand New' : 'Pre-Loved'}
                             </span>
                           </div>
-                          <div className="font-bold text-gray-900 flex items-center shrink-0">
-                            <IndianRupee className="w-4 h-4" />
+                          <div className="font-black text-[#183629] text-lg flex items-center shrink-0">
+                            <IndianRupee className="w-4 h-4 mr-0.5 opacity-80" />
                             {item.price}
                           </div>
                         </div>
@@ -261,14 +269,14 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Order Footer */}
-                    <div className="bg-gray-50/50 border-t border-gray-100 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                      <div className="flex items-center gap-2 text-sm font-medium text-gray-500 uppercase tracking-wider">
+                    <div className="bg-[#F9F8F4]/50 border-t border-[#183629]/5 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="flex items-center gap-2 text-xs font-bold text-[#183629]/50 uppercase tracking-widest">
                         <CreditCard className="w-4 h-4" />
                         Paid via {order.paymentMethod.toUpperCase()}
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-sm font-bold text-gray-500 uppercase">Order Total</span>
-                        <span className="text-2xl font-black text-gray-900 flex items-center">
+                        <span className="text-xs font-bold text-[#183629]/50 uppercase tracking-widest">Order Total</span>
+                        <span className="text-2xl font-black text-[#E27142] flex items-center">
                           <IndianRupee className="w-5 h-5 mr-0.5" />
                           {order.totalAmount}
                         </span>
@@ -279,7 +287,7 @@ export default function DashboardPage() {
                 ))}
               </div>
             )}
-          </>
+          </div>
         )}
 
       </div>
