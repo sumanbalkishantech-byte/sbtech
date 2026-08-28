@@ -1,40 +1,43 @@
 @import "tailwindcss";
 
 @theme {
-  /* Our Custom Elegant Colors */
-  --color-background: #FAFAFA;
-  --color-foreground: #111111;
+  /* KitabPoint Brand Palette */
+  --color-background: #F9F8F4;
+  --color-foreground: #183629;
   
-  --color-primary: #000000;
-  --color-primary-hover: #333333;
+  --color-primary: #183629;
+  --color-primary-hover: #12291f;
+  
+  --color-accent: #E27142;
+  --color-accent-hover: #c45a31;
   
   --color-surface: #FFFFFF;
-  --color-surface-muted: #F4F4F5;
+  --color-surface-muted: #EAE7DC;
   
-  --color-border: #E4E4E7;
+  --color-border: rgba(24, 54, 41, 0.1);
 
-  /* Custom Shadow */
-  --shadow-subtle: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  /* Organic Elevation Shadows */
+  --shadow-subtle: 0 4px 20px -2px rgba(24, 54, 41, 0.05);
+  --shadow-elevated: 0 12px 32px -4px rgba(24, 54, 41, 0.08);
 }
 
 @layer base {
   body {
-    /* Now Tailwind v4 knows exactly what these colors mean! */
-    @apply bg-background text-foreground antialiased selection:bg-primary selection:text-white;
+    @apply bg-background text-foreground antialiased selection:bg-[#E27142] selection:text-white;
   }
 }
 
-/* Custom scrollbar for an elegant feel */
+/* Custom organic scrollbar matching the paper aesthetic */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #F9F8F4;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d8;
+  background: #d8d3c7;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1aa;
+  background: #bebaaE;
 }

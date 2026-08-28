@@ -62,10 +62,10 @@ export default function AdminPanel() {
 
       try {
         const [booksRes, ordersRes] = await Promise.all([
-          axios.get("sbtech-production.up.railway.app/api/books/admin/pending", {
+          axios.get("https://sbtech-production.up.railway.app/api/books/admin/pending", {
             headers: { Authorization: `Bearer ${token}` }
           }),
-          axios.get("sbtech-production.up.railway.app/api/orders/admin/all", {
+          axios.get("https://sbtech-production.up.railway.app/api/orders/admin/all", {
             headers: { Authorization: `Bearer ${token}` }
           })
         ]);
@@ -98,7 +98,7 @@ export default function AdminPanel() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `sbtech-production.up.railway.app/api/books/admin/review/${bookId}`,
+        `https://sbtech-production.up.railway.app/api/books/admin/review/${bookId}`,
         { status: "Approved", price: Number(price) },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -136,14 +136,14 @@ export default function AdminPanel() {
       
       if (newImage) formData.append("images", newImage);
 
-      const uploadRes = await axios.post("sbtech-production.up.railway.app/api/books/upload", formData, {
+      const uploadRes = await axios.post("https://sbtech-production.up.railway.app/api/books/upload", formData, {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" }
       });
 
       const newBookId = uploadRes.data.book._id;
 
       await axios.put(
-        `sbtech-production.up.railway.app/api/books/admin/review/${newBookId}`,
+        `https://sbtech-production.up.railway.app/api/books/admin/review/${newBookId}`,
         { status: "Approved", price: Number(newBook.price) },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -163,7 +163,7 @@ export default function AdminPanel() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `sbtech-production.up.railway.app/api/orders/admin/${orderId}`,
+        `https://sbtech-production.up.railway.app/api/orders/admin/${orderId}`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -180,40 +180,40 @@ export default function AdminPanel() {
 
   if (isLoading) {
     return (
-      <main className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-gray-50/50">
-        <Loader2 className="w-8 h-8 animate-spin text-rose-600" />
+      <main className="min-h-[calc(100vh-80px)] flex items-center justify-center bg-[#F9F8F4]">
+        <Loader2 className="w-8 h-8 animate-spin text-[#E27142]" />
       </main>
     );
   }
 
   return (
-    <div className="min-h-[calc(100vh-80px)] bg-gray-50/50 flex flex-col md:flex-row">
+    <div className="min-h-[calc(100vh-80px)] bg-[#F9F8F4] flex flex-col md:flex-row">
       
       {/* --- ADMIN SIDEBAR --- */}
-      <aside className="w-full md:w-72 bg-white border-r border-gray-200 p-6 flex flex-col gap-6 shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-10">
+      <aside className="w-full md:w-72 bg-white border-r border-[#183629]/10 p-6 flex flex-col gap-6 shadow-sm z-10">
         <div className="flex items-center gap-3 mb-4">
-          <div className="bg-gradient-to-tr from-rose-600 to-orange-500 text-white p-2.5 rounded-xl shadow-md">
+          <div className="bg-[#183629] text-white p-2.5 rounded-xl shadow-md">
             <ShieldCheck className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-gray-900 leading-tight">Workspace</h2>
-            <p className="text-xs text-gray-500 font-medium tracking-wide uppercase">Super Admin</p>
+            <h2 className="text-lg font-bold text-[#183629] leading-tight">Workspace</h2>
+            <p className="text-xs text-[#E27142] font-bold tracking-wide uppercase">KitabPoint Admin</p>
           </div>
         </div>
 
         <nav className="flex flex-col gap-2">
           <button 
             onClick={() => setActiveTab("pending")}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
               activeTab === "pending" 
-              ? "bg-rose-50 text-rose-700 border border-rose-100 shadow-sm" 
-              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-transparent"
+              ? "bg-[#183629] text-white shadow-md" 
+              : "text-[#183629]/70 hover:bg-[#183629]/5 hover:text-[#183629] border border-transparent"
             }`}
           >
             <LayoutDashboard className="w-4 h-4" />
             Pending Queue
             {books.length > 0 && (
-              <span className="ml-auto bg-rose-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
+              <span className={`ml-auto text-[10px] px-2 py-0.5 rounded-full font-bold ${activeTab === "pending" ? "bg-[#E27142] text-white" : "bg-[#E27142] text-white"}`}>
                 {books.length}
               </span>
             )}
@@ -221,10 +221,10 @@ export default function AdminPanel() {
 
           <button 
             onClick={() => setActiveTab("add")}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
               activeTab === "add" 
-              ? "bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm" 
-              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-transparent"
+              ? "bg-[#183629] text-white shadow-md" 
+              : "text-[#183629]/70 hover:bg-[#183629]/5 hover:text-[#183629] border border-transparent"
             }`}
           >
             <PlusCircle className="w-4 h-4" />
@@ -233,16 +233,16 @@ export default function AdminPanel() {
 
           <button 
             onClick={() => setActiveTab("orders")}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
               activeTab === "orders" 
-              ? "bg-emerald-50 text-emerald-700 border border-emerald-100 shadow-sm" 
-              : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-transparent"
+              ? "bg-[#183629] text-white shadow-md" 
+              : "text-[#183629]/70 hover:bg-[#183629]/5 hover:text-[#183629] border border-transparent"
             }`}
           >
             <Receipt className="w-4 h-4" />
             Platform Orders
             {allOrders.length > 0 && (
-              <span className="ml-auto bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">
+              <span className={`ml-auto text-[10px] px-2 py-0.5 rounded-full font-bold ${activeTab === "orders" ? "bg-[#E27142] text-white" : "bg-[#E27142] text-white"}`}>
                 {allOrders.length}
               </span>
             )}
@@ -256,48 +256,48 @@ export default function AdminPanel() {
         {/* VIEW 1: PENDING QUEUE */}
         {activeTab === "pending" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">Pending Submissions</h1>
+            <h1 className="text-2xl font-bold text-[#183629] mb-6">Pending Submissions</h1>
             
-            <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-              <div className="bg-gray-50/80 border-b border-gray-100 px-8 py-5 flex items-center gap-3">
-                <Clock className="w-5 h-5 text-gray-500" />
-                <h2 className="font-semibold text-gray-800">Requires Pricing & Approval</h2>
+            <div className="bg-white rounded-3xl shadow-sm border border-[#183629]/5 overflow-hidden">
+              <div className="bg-[#EAE7DC]/50 border-b border-[#183629]/5 px-8 py-5 flex items-center gap-3">
+                <Clock className="w-5 h-5 text-[#183629]/50" />
+                <h2 className="font-bold text-[#183629]">Requires Pricing & Approval</h2>
               </div>
 
               {books.length === 0 ? (
-                <div className="p-16 text-center text-gray-500">
+                <div className="p-16 text-center font-medium text-[#183629]/50">
                   Your queue is empty. All books have been reviewed!
                 </div>
               ) : (
-                <div className="divide-y divide-gray-100">
+                <div className="divide-y divide-[#183629]/5">
                   {books.map((book) => (
-                    <div key={book._id} className="p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-gray-50/50 transition-colors">
+                    <div key={book._id} className="p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-[#F9F8F4]/50 transition-colors">
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-3">
-                          <h3 className="text-lg font-bold text-gray-900">{book.title}</h3>
-                          <span className="px-2.5 py-0.5 bg-gray-100 text-gray-600 text-xs font-semibold rounded-full border border-gray-200">
+                          <h3 className="text-lg font-bold text-[#183629]">{book.title}</h3>
+                          <span className="px-2.5 py-0.5 bg-[#F9F8F4] text-[#183629]/70 text-xs font-bold rounded-full border border-[#183629]/10">
                             Condition: {book.condition.replace("_", " ")}
                           </span>
                         </div>
-                        <p className="text-sm font-medium text-gray-600">Author: {book.author}</p>
-                        <p className="text-sm text-gray-500 max-w-2xl line-clamp-2">{book.description}</p>
+                        <p className="text-sm font-bold text-[#183629]/60">Author: {book.author}</p>
+                        <p className="text-sm text-[#183629]/50 max-w-2xl line-clamp-2">{book.description}</p>
                       </div>
 
-                      <div className="flex items-center gap-4 w-full md:w-auto shrink-0 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                      <div className="flex items-center gap-4 w-full md:w-auto shrink-0 bg-[#F9F8F4] p-4 rounded-2xl border border-[#183629]/5">
                         <div className="relative w-32">
-                          <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 stroke-[2]" />
+                          <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#183629]/40 stroke-[2]" />
                           <input
                             type="number"
                             placeholder="Price"
                             value={prices[book._id] || ""}
                             onChange={(e) => handlePriceChange(book._id, e.target.value)}
-                            className="w-full pl-9 pr-3 py-2 bg-white border border-gray-200 rounded-xl focus:border-rose-500 outline-none text-sm font-medium"
+                            className="w-full pl-9 pr-3 py-2 bg-white border border-[#183629]/10 rounded-xl focus:border-[#E27142] outline-none text-sm font-bold text-[#183629]"
                           />
                         </div>
                         <button
                           onClick={() => handleApprove(book._id)}
                           disabled={processingId === book._id}
-                          className="flex items-center justify-center gap-2 bg-gray-900 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
+                          className="flex items-center justify-center gap-2 bg-[#183629] hover:bg-[#12291f] text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all"
                         >
                           {processingId === book._id ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Check className="w-4 h-4" /> Approve</>}
                         </button>
@@ -313,35 +313,35 @@ export default function AdminPanel() {
         {/* VIEW 2: DIRECT ADD INVENTORY */}
         {activeTab === "add" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-3xl">
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">Add to Live Inventory</h1>
-            <form onSubmit={handleDirectAdd} className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 space-y-6">
+            <h1 className="text-2xl font-bold text-[#183629] mb-6">Add to Live Inventory</h1>
+            <form onSubmit={handleDirectAdd} className="bg-white rounded-3xl shadow-sm border border-[#183629]/5 p-8 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">Book Title</label>
-                  <input type="text" required value={newBook.title} onChange={(e) => setNewBook({...newBook, title: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none" />
+                  <label className="text-sm font-bold text-[#183629]/70">Book Title</label>
+                  <input type="text" required value={newBook.title} onChange={(e) => setNewBook({...newBook, title: e.target.value})} className="w-full px-4 py-3 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#183629] outline-none font-medium text-[#183629]" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">Author</label>
-                  <input type="text" required value={newBook.author} onChange={(e) => setNewBook({...newBook, author: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none" />
+                  <label className="text-sm font-bold text-[#183629]/70">Author</label>
+                  <input type="text" required value={newBook.author} onChange={(e) => setNewBook({...newBook, author: e.target.value})} className="w-full px-4 py-3 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#183629] outline-none font-medium text-[#183629]" />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-gray-700">Description</label>
-                <textarea required rows={3} value={newBook.description} onChange={(e) => setNewBook({...newBook, description: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none resize-none" />
+                <label className="text-sm font-bold text-[#183629]/70">Description</label>
+                <textarea required rows={3} value={newBook.description} onChange={(e) => setNewBook({...newBook, description: e.target.value})} className="w-full px-4 py-3 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#183629] outline-none resize-none font-medium text-[#183629]" />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-indigo-50/50 rounded-2xl border border-indigo-100/50">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-[#F9F8F4] rounded-2xl border border-[#183629]/5">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">Inventory Type</label>
-                  <select value={newBook.book_type} onChange={(e) => setNewBook({...newBook, book_type: e.target.value})} className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:border-indigo-500 outline-none font-medium text-indigo-700">
+                  <label className="text-sm font-bold text-[#183629]/70">Inventory Type</label>
+                  <select value={newBook.book_type} onChange={(e) => setNewBook({...newBook, book_type: e.target.value})} className="w-full px-4 py-3 bg-white border border-[#183629]/10 rounded-xl focus:border-[#183629] outline-none font-bold text-[#183629]">
                     <option value="New">Brand New (Retail)</option>
                     <option value="Used">Pre-Loved (Used)</option>
                   </select>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">Physical Condition</label>
-                  <select value={newBook.condition} onChange={(e) => setNewBook({...newBook, condition: e.target.value})} disabled={newBook.book_type === "New"} className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:border-indigo-500 outline-none disabled:opacity-50 disabled:bg-gray-100">
+                  <label className="text-sm font-bold text-[#183629]/70">Physical Condition</label>
+                  <select value={newBook.condition} onChange={(e) => setNewBook({...newBook, condition: e.target.value})} disabled={newBook.book_type === "New"} className="w-full px-4 py-3 bg-white border border-[#183629]/10 rounded-xl focus:border-[#183629] outline-none disabled:opacity-50 disabled:bg-[#EAE7DC] font-bold text-[#183629]">
                     <option value="Like_New">Like New</option>
                     <option value="Good">Good</option>
                     <option value="Fair">Fair</option>
@@ -352,14 +352,14 @@ export default function AdminPanel() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">Selling Price (₹)</label>
-                  <input type="number" required min="1" value={newBook.price} onChange={(e) => setNewBook({...newBook, price: e.target.value})} className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 outline-none" placeholder="e.g. 450" />
+                  <label className="text-sm font-bold text-[#183629]/70">Selling Price (₹)</label>
+                  <input type="number" required min="1" value={newBook.price} onChange={(e) => setNewBook({...newBook, price: e.target.value})} className="w-full px-4 py-3 bg-[#F9F8F4] border border-[#183629]/10 rounded-xl focus:bg-white focus:border-[#183629] outline-none font-medium text-[#183629]" placeholder="e.g. 450" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-gray-700">Upload Image</label>
+                  <label className="text-sm font-bold text-[#183629]/70">Upload Image</label>
                   <div className="relative">
                     <input type="file" required accept="image/*" onChange={(e) => setNewImage(e.target.files ? e.target.files[0] : null)} className="hidden" id="admin-file" />
-                    <label htmlFor="admin-file" className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-indigo-50 text-indigo-600 border border-indigo-100 hover:bg-indigo-100 rounded-xl cursor-pointer transition-colors font-medium text-sm h-[50px]">
+                    <label htmlFor="admin-file" className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#F9F8F4] text-[#183629] border border-[#183629]/10 hover:border-[#E27142] hover:text-[#E27142] rounded-xl cursor-pointer transition-colors font-bold text-sm h-[50px]">
                       <UploadCloud className="w-5 h-5" />
                       {newImage ? "Image Selected" : "Choose File"}
                     </label>
@@ -367,7 +367,7 @@ export default function AdminPanel() {
                 </div>
               </div>
 
-              <button type="submit" disabled={isAddingDirect} className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white py-3.5 rounded-xl font-medium transition-all mt-4">
+              <button type="submit" disabled={isAddingDirect} className="w-full flex items-center justify-center gap-2 bg-[#E27142] hover:bg-[#c45a31] text-white py-3.5 rounded-xl font-bold transition-all mt-4">
                 {isAddingDirect ? <Loader2 className="w-5 h-5 animate-spin" /> : <><BookOpen className="w-5 h-5" /> Publish to Storefront</>}
               </button>
             </form>
@@ -377,25 +377,25 @@ export default function AdminPanel() {
         {/* VIEW 3: PLATFORM ORDERS (ADMIN VIEW) */}
         {activeTab === "orders" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">All Platform Orders</h1>
+            <h1 className="text-2xl font-bold text-[#183629] mb-6">All Platform Orders</h1>
             
             {allOrders.length === 0 ? (
-              <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-16 flex flex-col items-center justify-center text-center">
-                <div className="bg-gray-50 p-6 rounded-full mb-4">
-                  <Receipt className="w-10 h-10 text-gray-300" />
+              <div className="bg-white rounded-3xl shadow-sm border border-[#183629]/5 p-16 flex flex-col items-center justify-center text-center">
+                <div className="bg-[#F9F8F4] p-6 rounded-full mb-4">
+                  <Receipt className="w-10 h-10 text-[#183629]/30" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">No orders placed yet</h3>
-                <p className="text-gray-500">When customers purchase books, their order details will appear here.</p>
+                <h3 className="text-xl font-bold text-[#183629] mb-2">No orders placed yet</h3>
+                <p className="text-[#183629]/50 font-medium">When customers purchase books, their order details will appear here.</p>
               </div>
             ) : (
               <div className="space-y-4">
                 {allOrders.map((order) => (
-                  <div key={order._id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden p-6 flex flex-col md:flex-row justify-between gap-6 hover:border-emerald-200 transition-colors">
+                  <div key={order._id} className="bg-white rounded-2xl shadow-sm border border-[#183629]/5 overflow-hidden p-6 flex flex-col md:flex-row justify-between gap-6 hover:border-[#183629]/20 transition-colors">
                     
                     <div className="space-y-3 flex-1">
                       <div className="flex items-center gap-3">
-                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Order ID</span>
-                        <span className="text-sm font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">
+                        <span className="text-xs font-bold text-[#183629]/40 uppercase tracking-wider">Order ID</span>
+                        <span className="text-sm font-black text-[#183629] bg-[#F9F8F4] px-2 py-0.5 rounded-md border border-[#183629]/10">
                           ORD-{order._id.substring(0, 6).toUpperCase()}
                         </span>
                         
@@ -406,7 +406,7 @@ export default function AdminPanel() {
                           className={`px-3 py-1 rounded-full text-xs font-bold border outline-none cursor-pointer transition-colors ${
                             order.status === 'Processing' ? 'bg-amber-50 text-amber-700 border-amber-200' :
                             order.status === 'Shipped' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                            'bg-emerald-50 text-emerald-700 border-emerald-200'
+                            'bg-[#EAE7DC] text-[#183629] border-[#183629]/20'
                           }`}
                         >
                           <option value="Processing">Processing</option>
@@ -415,23 +415,23 @@ export default function AdminPanel() {
                         </select>
                       </div>
                       
-                      <div className="flex items-center gap-4 text-sm text-gray-600 font-medium">
-                        <div className="flex items-center gap-1.5"><User className="w-4 h-4 text-gray-400"/> {order.shippingAddress.fullName}</div>
-                        <div className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-gray-400"/> {order.shippingAddress.city}</div>
+                      <div className="flex items-center gap-4 text-sm text-[#183629]/70 font-medium">
+                        <div className="flex items-center gap-1.5"><User className="w-4 h-4 text-[#183629]/40"/> {order.shippingAddress.fullName}</div>
+                        <div className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-[#183629]/40"/> {order.shippingAddress.city}</div>
                       </div>
 
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs font-medium text-[#183629]/50">
                         {order.items.length} {order.items.length === 1 ? 'item' : 'items'} purchased via {order.paymentMethod.toUpperCase()}
                       </div>
                     </div>
 
-                    <div className="flex flex-col items-end justify-center shrink-0 border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-6">
-                      <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Total Paid</span>
-                      <div className="text-2xl font-black text-gray-900 flex items-center">
+                    <div className="flex flex-col items-end justify-center shrink-0 border-t md:border-t-0 md:border-l border-[#183629]/10 pt-4 md:pt-0 md:pl-6">
+                      <span className="text-xs font-bold text-[#183629]/40 uppercase tracking-wider mb-1">Total Paid</span>
+                      <div className="text-2xl font-black text-[#183629] flex items-center">
                         <IndianRupee className="w-5 h-5 mr-0.5" />
                         {order.totalAmount}
                       </div>
-                      <div className="flex items-center gap-1.5 text-xs text-gray-400 mt-2 font-medium">
+                      <div className="flex items-center gap-1.5 text-xs text-[#183629]/50 mt-2 font-medium">
                         <Calendar className="w-3.5 h-3.5" />
                         {new Date(order.createdAt).toLocaleDateString()}
                       </div>
