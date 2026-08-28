@@ -89,8 +89,9 @@ export default function Navbar() {
               alt="KitabPoint Icon" 
               className="h-9 md:h-11 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-sm"
             />
-            <span className="text-2xl font-black tracking-tight text-[#183629]">
+            <span className="text-2xl font-black tracking-tight text-[#183629] flex items-baseline">
               Kitab<span className="text-[#E27142]">Point</span>
+              <span className="text-sm font-bold text-[#183629]/60 ml-0.5 tracking-normal">.com</span>
             </span>
           </Link>
 
