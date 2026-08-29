@@ -161,7 +161,7 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            disabled={isLoading || toast.type === "success"}
+            disabled={isLoading || (toast.show && toast.type === "success")}
             className="w-full flex items-center justify-center gap-2 bg-[#183629] hover:bg-[#12291f] text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-xl shadow-[#183629]/20 hover:-translate-y-1 disabled:opacity-70 disabled:hover:-translate-y-0 group mt-4"
           >
             {isLoading ? (
