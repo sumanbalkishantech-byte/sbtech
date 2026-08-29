@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
-import { User, Mail, Lock, ArrowRight, Loader2, BookOpen, CheckCircle, AlertCircle, X } from "lucide-react";
+import { User, Mail, Lock, ArrowRight, Loader2, CheckCircle, AlertCircle, X } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -98,11 +98,15 @@ export default function RegisterPage() {
 
       <div className="w-full max-w-md bg-white rounded-[2.5rem] shadow-sm border border-[#183629]/5 p-8 md:p-10 relative z-10">
         
-        {/* Header */}
+        {/* Header with Client Logo */}
         <div className="flex flex-col items-center mb-10">
-          <div className="bg-[#E27142] text-white p-3.5 rounded-2xl mb-5 shadow-[0_8px_20px_rgba(226,113,66,0.2)]">
-            <BookOpen className="w-6 h-6" />
-          </div>
+          <Link href="/" className="group mb-6">
+            <img 
+              src="/kp_logo.png" 
+              alt="KitabPoint Logo" 
+              className="h-16 w-auto object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
+            />
+          </Link>
           <h1 className="text-3xl font-black text-[#183629] tracking-tight">Create an Account</h1>
           <p className="text-sm font-medium text-[#183629]/60 mt-2">Join the premium book marketplace</p>
         </div>
