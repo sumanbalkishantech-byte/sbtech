@@ -4,19 +4,25 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
-import { User, Mail, Lock, ArrowRight, Loader2, BookOpen } from "lucide-react";
+import { User, Mail, Lock, ArrowRight, Loader2, BookOpen, CheckCircle, AlertCircle, X } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  
+  // New Popup State
+  const [toast, setToast] = useState<{ show: boolean; type: "success" | "error"; message: string }>({
+    show: false,
+    type: "success",
+    message: "",
+  });
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setToast({ show: false, type: "success", message: "" });
     setIsLoading(true);
 
     try {
@@ -26,9 +32,31 @@ export default function RegisterPage() {
         password,
       });
 
-      router.push("/login");
+      // Trigger Success Popup
+      setToast({ 
+        show: true, 
+        type: "success", 
+        message: "Registration successful! Redirecting to login..." 
+      });
+
+      // Redirect after showing the popup for 2 seconds
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+
     } catch (err: any) {
-      setError(err.response?.data?.error || "An error occurred during registration.");
+      // Trigger Error Popup
+      setToast({ 
+        show: true, 
+        type: "error", 
+        message: err.response?.data?.error || "Registration failed. Please try again." 
+      });
+
+      // Auto-hide error after 4 seconds
+      setTimeout(() => {
+        setToast((prev) => ({ ...prev, show: false }));
+      }, 4000);
+
     } finally {
       setIsLoading(false);
     }
@@ -37,6 +65,29 @@ export default function RegisterPage() {
   return (
     <main className="relative min-h-[calc(100vh-80px)] flex items-center justify-center p-6 bg-[#F9F8F4] overflow-hidden">
       
+      {/* Global Toast Popup */}
+      {toast.show && (
+        <div className={`fixed top-10 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border animate-in slide-in-from-top-10 fade-in duration-300 ${
+          toast.type === 'success' 
+          ? 'bg-[#183629] text-white border-[#183629]/20' 
+          : 'bg-white text-red-600 border-red-100'
+        }`}>
+          {toast.type === 'success' ? (
+            <CheckCircle className="w-5 h-5 text-[#E27142]" />
+          ) : (
+            <AlertCircle className="w-5 h-5" />
+          )}
+          <p className="text-sm font-bold tracking-wide">{toast.message}</p>
+          <button 
+            onClick={() => setToast({ ...toast, show: false })} 
+            className="ml-4 opacity-70 hover:opacity-100 transition-opacity"
+            aria-label="Close popup"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       {/* Seamless Washi Paper Texture */}
       <div 
         className="absolute inset-0 z-0 mix-blend-multiply opacity-[0.2] pointer-events-none"
@@ -55,13 +106,6 @@ export default function RegisterPage() {
           <h1 className="text-3xl font-black text-[#183629] tracking-tight">Create an Account</h1>
           <p className="text-sm font-medium text-[#183629]/60 mt-2">Join the premium book marketplace</p>
         </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 text-xs uppercase tracking-wider font-bold rounded-xl text-center">
-            {error}
-          </div>
-        )}
 
         {/* Form */}
         <form onSubmit={handleRegister} className="space-y-6">
@@ -113,11 +157,13 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || toast.type === "success"}
             className="w-full flex items-center justify-center gap-2 bg-[#183629] hover:bg-[#12291f] text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-xl shadow-[#183629]/20 hover:-translate-y-1 disabled:opacity-70 disabled:hover:-translate-y-0 group mt-4"
           >
             {isLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />
+            ) : toast.type === "success" && toast.show ? (
+              <CheckCircle className="w-5 h-5 text-[#E27142]" />
             ) : (
               <>
                 Create Account
