@@ -16,8 +16,13 @@ const PORT = process.env.PORT || 5000;
 
 // Enable CORS for the Next.js frontend
 app.use(cors({
-    origin: 'http://localhost:3000', 
-    credentials: true 
+  origin: [
+    "https://kitabpoint.com", 
+    "https://www.kitabpoint.com", 
+    "https://sbtech-pi.vercel.app", 
+    "http://localhost:3000"
+  ],
+  credentials: true
 }));
 
 app.use(express.json());
