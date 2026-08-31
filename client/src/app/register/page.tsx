@@ -12,7 +12,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // New Popup State
   const [toast, setToast] = useState<{ show: boolean; type: "success" | "error"; message: string }>({
     show: false,
@@ -26,17 +26,17 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      await axios.post("https://sbtech-production.up.railway.app/api/auth/register", {
+      await axios.post("https://api.kitabpoint.com/api/auth/register", {
         name,
         email,
         password,
       });
 
       // Trigger Success Popup
-      setToast({ 
-        show: true, 
-        type: "success", 
-        message: "Registration successful! Redirecting to login..." 
+      setToast({
+        show: true,
+        type: "success",
+        message: "Registration successful! Redirecting to login..."
       });
 
       // Redirect after showing the popup for 2 seconds
@@ -46,10 +46,10 @@ export default function RegisterPage() {
 
     } catch (err: any) {
       // Trigger Error Popup
-      setToast({ 
-        show: true, 
-        type: "error", 
-        message: err.response?.data?.error || "Registration failed. Please try again." 
+      setToast({
+        show: true,
+        type: "error",
+        message: err.response?.data?.error || "Registration failed. Please try again."
       });
 
       // Auto-hide error after 4 seconds
@@ -64,22 +64,21 @@ export default function RegisterPage() {
 
   return (
     <main className="relative min-h-[calc(100vh-80px)] flex items-center justify-center p-6 bg-[#F9F8F4] overflow-hidden">
-      
+
       {/* Global Toast Popup */}
       {toast.show && (
-        <div className={`fixed top-10 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border animate-in slide-in-from-top-10 fade-in duration-300 ${
-          toast.type === 'success' 
-          ? 'bg-[#183629] text-white border-[#183629]/20' 
-          : 'bg-white text-red-600 border-red-100'
-        }`}>
+        <div className={`fixed top-10 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border animate-in slide-in-from-top-10 fade-in duration-300 ${toast.type === 'success'
+            ? 'bg-[#183629] text-white border-[#183629]/20'
+            : 'bg-white text-red-600 border-red-100'
+          }`}>
           {toast.type === 'success' ? (
             <CheckCircle className="w-5 h-5 text-[#E27142]" />
           ) : (
             <AlertCircle className="w-5 h-5" />
           )}
           <p className="text-sm font-bold tracking-wide">{toast.message}</p>
-          <button 
-            onClick={() => setToast({ ...toast, show: false })} 
+          <button
+            onClick={() => setToast({ ...toast, show: false })}
             className="ml-4 opacity-70 hover:opacity-100 transition-opacity"
             aria-label="Close popup"
           >
@@ -89,7 +88,7 @@ export default function RegisterPage() {
       )}
 
       {/* Seamless Washi Paper Texture */}
-      <div 
+      <div
         className="absolute inset-0 z-0 mix-blend-multiply opacity-[0.2] pointer-events-none"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -97,13 +96,13 @@ export default function RegisterPage() {
       />
 
       <div className="w-full max-w-md bg-white rounded-[2.5rem] shadow-sm border border-[#183629]/5 p-8 md:p-10 relative z-10">
-        
+
         {/* Header with Client Logo */}
         <div className="flex flex-col items-center mb-10">
           <Link href="/" className="group mb-6">
-            <img 
-              src="/kp_logo.png" 
-              alt="KitabPoint Logo" 
+            <img
+              src="/kp_logo.png"
+              alt="KitabPoint Logo"
               className="h-16 w-auto object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
             />
           </Link>

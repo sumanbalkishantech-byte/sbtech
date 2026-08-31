@@ -19,14 +19,14 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("https://sbtech-production.up.railway.app/api/auth/login", {
+      const response = await axios.post("https://api.kitabpoint.com/api/auth/login", {
         email,
         password,
       });
 
       // Save the JWT token securely to localStorage
       localStorage.setItem("token", response.data.token);
-      
+
       // Save user info (to determine if they are super_admin or user)
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
@@ -45,9 +45,9 @@ export default function LoginPage() {
 
   return (
     <main className="relative min-h-[calc(100vh-80px)] flex items-center justify-center p-6 bg-[#F9F8F4] overflow-hidden">
-      
+
       {/* Seamless Washi Paper Texture */}
-      <div 
+      <div
         className="absolute inset-0 z-0 mix-blend-multiply opacity-[0.2] pointer-events-none"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -55,13 +55,13 @@ export default function LoginPage() {
       />
 
       <div className="w-full max-w-md bg-white rounded-[2.5rem] shadow-sm border border-[#183629]/5 p-8 md:p-10 relative z-10">
-        
+
         {/* Header with Client Logo */}
         <div className="flex flex-col items-center mb-10">
           <Link href="/" className="group mb-6">
-            <img 
-              src="/kp_logo.png" 
-              alt="KitabPoint Logo" 
+            <img
+              src="/kp_logo.png"
+              alt="KitabPoint Logo"
               className="h-16 w-auto object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
             />
           </Link>
